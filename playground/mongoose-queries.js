@@ -9,7 +9,7 @@ var user_id = '1597bc1c952b0372be4059355';
 
 
 
-/*Todo.find({
+Todo.find({
     _id: id
 }).then((todos) => {
     console.log('Todos: ', todos);
@@ -25,7 +25,7 @@ Todo.findById(id).then((todo) => {
         return console.log('ID not found :(');
     }
     console.log('Todo by ID: ', todo);
-});*/
+});
 
 User.findById(user_id).then((user) => {
     if(!user){
