@@ -3,6 +3,7 @@ require('./config/config');
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
@@ -122,6 +123,41 @@ app.post('/users', (req, res) => {
 app.get('/users/me', authenticate, (req, res) => {
     res.send(req.user);
 });
+
+
+// Created by Panibrat - it works!!!
+/*app.post('/users/login', (req, res) => {
+    var email = req.body.email;
+    var password = req.body.password;
+    User.findOne({email}).then((user) => {
+        if(!user) {
+            return res.status(400).send();
+        }
+        var hashedPassword = user.password;
+        bcrypt.compare(password, hashedPassword, (err, result) => {
+            if(result) {
+                return res.header('x-auth', user.tokens[0].token).send(user);
+            } else {
+                return res.status(400).send();
+            }
+        });
+    });
+});*/
+
+
+app.post('/users/login', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+
+    User.findByCredentials(body.email, body.password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(user);
+        });
+    }).catch((e) => {
+        res.status(400).send();
+    });
+
+});
+
 
 
 app.listen(port, () =>{
