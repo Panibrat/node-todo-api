@@ -8,7 +8,7 @@ var UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        minlength: 1,
+        minlength: 6,
         trim: true,
         unique: true,
         validate: {
