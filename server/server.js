@@ -178,3 +178,6 @@ app.listen(port, () =>{
 
 
 module.exports = {app};
+
+
+//console.log("SECRET: ", process.env.JWT_SECRET);
